@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiskCord — Hang out with your people</title>
+<link rel="icon" href="logo.svg">
+<style>
+  :root{--ink:#14112b;--ink2:#1e1a3d;--coral:#ff6b5b;--pink:#ff3d7f;--mint:#4fe3c1;--sun:#ffc94d;--paper:#fff8f2;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1180px;margin:0 auto;padding:0 24px}
+  /* nav */
+  nav{position:sticky;top:0;z-index:50;background:rgba(20,17,43,.92);backdrop-filter:blur(10px)}
+  nav .container{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:22px;letter-spacing:.5px}
+  .brand img{width:36px;height:36px}
+  .links{display:flex;gap:28px;color:#e7e3ff;font-weight:600;font-size:15px}
+  .links a:hover{color:var(--mint)}
+  .btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;font-weight:700;padding:14px 28px;font-size:17px;transition:transform .15s,box-shadow .15s;cursor:pointer;border:0}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-light{background:#fff;color:var(--ink)}
+  .btn-light:hover{box-shadow:0 10px 24px rgba(0,0,0,.25);color:var(--pink)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{box-shadow:0 10px 24px rgba(20,17,43,.35);background:var(--ink2)}
+  .btn-grad{background:linear-gradient(135deg,var(--coral),var(--pink));color:#fff}
+  .btn-grad:hover{box-shadow:0 10px 24px rgba(255,61,127,.45)}
+  nav .btn{padding:9px 20px;font-size:14px}
+  .burger{display:none;background:none;border:0;color:#fff;font-size:28px;cursor:pointer}
+  /* hero */
+  .hero{position:relative;overflow:hidden;background:radial-gradient(circle at 20% 20%,#3b2a7a 0,transparent 45%),radial-gradient(circle at 85% 70%,#7a2457 0,transparent 45%),var(--ink);color:#fff;padding:110px 0 180px}
+  .hero .container{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .hero h1{font-size:clamp(40px,6vw,72px);line-height:1.02;font-weight:900;letter-spacing:-1px}
+  .hero h1 span{background:linear-gradient(90deg,var(--sun),var(--coral),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{font-size:20px;margin:24px 0 36px;color:#d9d4ff;max-width:560px}
+  .cta{display:flex;gap:16px;flex-wrap:wrap}
+  .stack{position:relative;height:420px}
+  .card{position:absolute;background:#262150;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:14px 16px;box-shadow:0 20px 50px rgba(0,0,0,.4);animation:float 6s ease-in-out infinite}
+  .card .row{display:flex;gap:10px;align-items:flex-start}
+  .av{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;color:var(--ink)}
+  .card b{font-size:14px}.card small{color:#9d97c9;font-size:11px;margin-left:6px}
+  .card p{margin:2px 0 0;font-size:14px;color:#e8e5ff}
+  .c1{top:10px;left:0;width:300px}
+  .c2{top:130px;right:0;width:280px;animation-delay:-2s}
+  .c3{top:260px;left:30px;width:320px;animation-delay:-4s}
+  .voice{display:flex;gap:-6px;margin-top:10px}
+  .voice .av{width:30px;height:30px;font-size:12px;border:3px solid #262150;margin-right:-8px}
+  .live{display:inline-block;background:var(--mint);color:var(--ink);font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;margin-left:8px}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  .wave{position:absolute;bottom:-1px;left:0;width:100%;z-index:1}
+  .blob{position:absolute;border-radius:50%;filter:blur(2px);opacity:.9}
+  /* features */
+  .feature{padding:110px 0}
+  .feature:nth-child(even){background:#fff}
+  .feature .container{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+  .feature.flip .art{order:2}
+  .feature h2{font-size:clamp(30px,4vw,46px);line-height:1.1;font-weight:900;margin-bottom:18px}
+  .feature p{font-size:19px;color:#4b4670}
+  .art{border-radius:28px;padding:30px;min-height:340px;display:flex;flex-direction:column;justify-content:center;gap:12px;position:relative;overflow:hidden}
+  .art.a1{background:linear-gradient(135deg,#ffe1d6,#ffd0e2)}
+  .art.a2{background:linear-gradient(135deg,#d6fff3,#d8e4ff)}
+  .art.a3{background:linear-gradient(135deg,#fff1c9,#ffdcd0)}
+  .art.a4{background:linear-gradient(135deg,#e6dcff,#ffd6ec)}
+  .pill{background:#fff;border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 20px rgba(20,17,43,.08);font-weight:600}
+  .pill .hash{color:#8a84b3;font-weight:800;font-size:20px}
+  .pill.active{outline:3px solid var(--coral)}
+  .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tile{aspect-ratio:4/3;border-radius:16px;display:grid;place-items:center;font-size:42px;position:relative}
+  .tile span{position:absolute;bottom:8px;left:10px;font-size:12px;font-weight:700;background:rgba(20,17,43,.75);color:#fff;padding:2px 8px;border-radius:6px}
+  .tile.talk{outline:4px solid var(--mint)}
+  .role{display:inline-block;padding:6px 14px;border-radius:999px;font-weight:700;font-size:14px;margin:4px;background:#fff}
+  .stat{display:flex;justify-content:space-around;text-align:center;margin-top:10px}
+  .stat b{display:block;font-size:34px;font-weight:900;color:var(--pink)}
+  /* big cta */
+  .big{text-align:center;padding:120px 0;background:var(--paper)}
+  .big h2{font-size:clamp(34px,5vw,56px);font-weight:900;margin-bottom:30px}
+  .sparkles{font-size:46px;margin-bottom:18px;letter-spacing:12px}
+  /* footer */
+  footer{background:var(--ink);color:#fff;padding:80px 0 40px}
+  .fgrid{display:grid;grid-template-columns:2fr repeat(4,1fr);gap:30px}
+  footer h4{color:var(--coral);font-size:15px;margin-bottom:14px}
+  footer ul{list-style:none}footer li{margin:8px 0;color:#cfcaf2;font-size:15px}
+  footer li a:hover{text-decoration:underline}
+  .tag{font-size:30px;font-weight:900;line-height:1.15;color:var(--mint);max-width:280px}
+  .social{display:flex;gap:14px;margin-top:20px}
+  .social a{width:36px;height:36px;border-radius:50%;background:#2a2556;display:grid;place-items:center;font-size:16px}
+  .social a:hover{background:var(--pink)}
+  .fbottom{border-top:1px solid #352f66;margin-top:50px;padding-top:26px;display:flex;justify-content:space-between;align-items:center}
+  @media (max-width:900px){
+    .links{display:none}.burger{display:block}
+    .links.open{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--ink);padding:20px 24px}
+    .hero .container,.feature .container{grid-template-columns:1fr}
+    .feature.flip .art{order:0}
+    .stack{height:400px;max-width:360px}
+    .fgrid{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <a class="brand" href="#"><img src="logo.svg" alt="">MiskCord</a>
+    <div class="links" id="links">
+      <a href="#download">Download</a><a href="#features">Features</a><a href="#safety">Safety</a><a href="#support">Support</a><a href="#blog">Blog</a>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <a class="btn btn-light" href="app.html">Open MiskCord</a>
+      <button class="burger" onclick="document.getElementById('links').classList.toggle('open')">&#9776;</button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="blob" style="width:120px;height:120px;background:var(--sun);top:60px;right:8%;opacity:.15"></div>
+  <div class="blob" style="width:220px;height:220px;background:var(--mint);bottom:120px;left:-60px;opacity:.12"></div>
+  <div class="container">
+    <div>
+      <h1>Your crew.<br>Your corner of<br>the <span>internet.</span></h1>
+      <p>MiskCord is the cozy spot where friend groups, gaming squads, study buddies and fan clubs hang out. Chat, call, stream and share without the noise.</p>
+      <div class="cta">
+        <a class="btn btn-light" href="#download">&#11015; Download for Desktop</a>
+        <a class="btn btn-grad" href="app.html">Open in your browser</a>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="card c1"><div class="row"><div class="av" style="background:var(--sun)">JN</div><div><b>juno</b><small>Today at 9:14 PM</small><p>who's down for a late-night match? 🎮</p></div></div></div>
+      <div class="card c2"><b>🔊 Chill Lounge</b><span class="live">LIVE</span><div class="voice"><div class="av" style="background:var(--mint)">RK</div><div class="av" style="background:var(--coral)">EV</div><div class="av" style="background:#b69cff">TO</div><div class="av" style="background:var(--sun)">+4</div></div></div>
+      <div class="card c3"><div class="row"><div class="av" style="background:var(--coral)">EV</div><div><b>evie</b><small>Today at 9:15 PM</small><p>omw!! saving you a seat in voice ✨</p></div></div></div>
+    </div>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#fff8f2" d="M0,64 C240,128 480,0 720,48 C960,96 1200,120 1440,40 L1440,120 L0,120 Z"/></svg>
+</header>
+
+<main id="features">
+  <section class="feature">
+    <div class="container">
+      <div class="art a1">
+        <div class="pill"><span class="hash">#</span>welcome</div>
+        <div class="pill active"><span class="hash">#</span>memes-only</div>
+        <div class="pill"><span class="hash">#</span>homework-help</div>
+        <div class="pill">🔊 Movie Night</div>
+      </div>
+      <div><h2>Spaces made just for your group</h2><p>Create a MiskCord space in seconds and invite who you want. Spin up channels for every topic, so the memes never drown out the plans.</p></div>
+    </div>
+  </section>
+  <section class="feature flip">
+    <div class="container">
+      <div class="art a2">
+        <div class="tiles">
+          <div class="tile talk" style="background:#ffd9c7">🦊<span>evie</span></div>
+          <div class="tile" style="background:#c9f5e9">🐸<span>rook</span></div>
+          <div class="tile" style="background:#e1d6ff">🐙<span>toby</span></div>
+          <div class="tile" style="background:#fff0b8">🐝<span>juno</span></div>
+        </div>
+      </div>
+      <div><h2>Drop in. No calls to schedule.</h2><p>Voice rooms are always open. Hop in when you're free, see who's around, and share your screen to show off a build or watch something together.</p></div>
+    </div>
+  </section>
+  <section class="feature" id="safety">
+    <div class="container">
+      <div class="art a3">
+        <div style="text-align:center">
+          <span class="role" style="color:#e2483d">● Owner</span><span class="role" style="color:#2fae8f">● Mods</span>
+          <span class="role" style="color:#7b5cff">● Artists</span><span class="role" style="color:#d48a00">● Newbies</span>
+        </div>
+        <div class="pill">🔒 <span>Only <b>Mods</b> can post in #announcements</span></div>
+        <div class="pill">🛡️ <span>Auto-filter spam &amp; sketchy links</span></div>
+      </div>
+      <div><h2>You make the rules</h2><p>Roles and permissions let you decide who can talk, post or invite. Built-in safety tools help keep your space friendly, whether it's 5 friends or 50,000 fans.</p></div>
+    </div>
+  </section>
+  <section class="feature flip">
+    <div class="container">
+      <div class="art a4">
+        <div class="pill">🎨 <span><b>Pixel Pals</b> · 12,480 members</span></div>
+        <div class="pill">📚 <span><b>Late Night Study</b> · 3,201 members</span></div>
+        <div class="pill">🎸 <span><b>Garage Band HQ</b> · 980 members</span></div>
+        <div class="stat"><div><b>2.4k</b>online now</div><div><b>180</b>in voice</div></div>
+      </div>
+      <div><h2>Find your people, wherever they are</h2><p>From tiny friend groups to huge communities, MiskCord keeps it all in one place. Low lag, crisp audio and an app on every device.</p></div>
+    </div>
+  </section>
+</main>
+
+<section class="big" id="download">
+  <div class="sparkles">✦ ✧ ✦</div>
+  <h2>Ready to find your corner?</h2>
+  <div class="cta" style="justify-content:center">
+    <a class="btn btn-dark" href="#">&#11015; Windows</a>
+    <a class="btn btn-dark" href="#">&#11015; macOS</a>
+    <a class="btn btn-dark" href="#">&#11015; Linux</a>
+    <a class="btn btn-grad" href="app.html">Open in browser</a>
+  </div>
+</section>
+
+<footer id="support">
+  <div class="container">
+    <div class="fgrid">
+      <div><div class="tag">HANG OUT<br>YOUR WAY</div>
+        <div class="social"><a href="#">𝕏</a><a href="#">◎</a><a href="#">▶</a><a href="#">♪</a></div></div>
+      <div><h4>Product</h4><ul><li><a href="#">Download</a></li><li><a href="#">Misk+</a></li><li><a href="#">Status</a></li><li><a href="#">App Directory</a></li></ul></div>
+      <div><h4>Company</h4><ul><li><a href="#">About</a></li><li><a href="#">Jobs</a></li><li><a href="#">Brand</a></li><li><a href="#" id="blog">Newsroom</a></li></ul></div>
+      <div><h4>Resources</h4><ul><li><a href="#">Support</a></li><li><a href="#">Safety</a></li><li><a href="#">Feedback</a></li><li><a href="#">Developers</a></li></ul></div>
+      <div><h4>Policies</h4><ul><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li><li><a href="#">Guidelines</a></li><li><a href="#">Licenses</a></li></ul></div>
+    </div>
+    <div class="fbottom"><a class="brand" href="#"><img src="logo.svg" alt="">MiskCord</a><a class="btn btn-grad" style="padding:10px 22px;font-size:14px" href="app.html#register">Sign up</a></div>
+  </div>
+</footer>
+</body>
+</html>
