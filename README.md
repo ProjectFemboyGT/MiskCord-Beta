@@ -9,10 +9,6 @@ uvicorn server:app --port 8000
 ```
 Without `DATABASE_URL` it stores data in a local `miskcord.db` SQLite file.
 
-## Environment variables
-- `DATABASE_URL` – Postgres connection string (e.g. from Neon). Required on Render so data survives restarts.
-- `MISKCORD_OWNER` – username that gets the Owner badge (default `bruter`).
-
 ## Deploy on Render (free)
 1. Create a free Postgres database at https://neon.tech and copy its connection string.
 2. Push this folder to a GitHub repo.
